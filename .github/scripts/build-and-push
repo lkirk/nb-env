@@ -11,7 +11,7 @@ fi
 if [ -f "${SINGULARITY_RECIPE}" ]; then
     set -x
     singularity build "${OUTPUT_CONTAINER}" "${SINGULARITY_RECIPE}"
-    singularity remote login SylabsCloud <<< "${SYLABS_TOKEN}"
+    singularity remote login <<< "${SYLABS_TOKEN}"
     # TODO: sign images
     singularity push -U "${OUTPUT_CONTAINER}" "${IMAGE_URI}"
 else
