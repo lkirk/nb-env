@@ -20,10 +20,13 @@ jobs:
       env:
         SINGULARITY_RECIPE: Singularity
         OUTPUT_CONTAINER: container.sif
+        SINGULARITY_LIBRARY: 'library://lkirk/default/nb-env'
       run: |
        ls
        if [ -f "${SINGULARITY_RECIPE}" ]; then
            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
+           singularity remote login -p ${{ sylabs.SYLABS_TOKEN }}
+           singularity push ${OUTPUT_CONTAINER} ${SINGULARITY_LIBRARY}
        else
            echo "${SINGULARITY_RECIPE} is not found."
            echo "Present working directory: $PWD"
