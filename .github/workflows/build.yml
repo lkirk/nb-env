@@ -25,6 +25,10 @@ jobs:
         SINGULARITY_LIBRARY: 'library://lkirk/default/nb-env'
       run: |
        set -eu
+       if [ -z "${SYLABS_TOKEN}"; then
+           echo "NOOOO"
+       fi
+
        if [ -f "${SINGULARITY_RECIPE}" ]; then
            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
            singularity remote login -p ${SYLABS_TOKEN}
