@@ -25,7 +25,7 @@ jobs:
        ls
        if [ -f "${SINGULARITY_RECIPE}" ]; then
            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
-           singularity remote login -p ${{ sylabs.SYLABS_TOKEN }}
+           singularity remote login -p ${{ secrets.SYLABS_TOKEN }}
            singularity push ${OUTPUT_CONTAINER} ${SINGULARITY_LIBRARY}
        else
            echo "${SINGULARITY_RECIPE} is not found."
