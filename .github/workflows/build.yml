@@ -19,19 +19,21 @@ jobs:
     - name: Build Container
       shell: bash
       env:
-        SINGULARITY_RECIPE: Singularity
-        OUTPUT_CONTAINER: container.sif
+        SINGULARITY_RECIPE: 'Singularity'
+        OUTPUT_CONTAINER: 'container.sif'
         SINGULARITY_LIBRARY: 'library://lkirk/default/nb-env'
+        SYLABS_TOKEN: "${{ secrets.SYLABS_TOKEN }}"
       run: |
        set -eu
-       if [ -z "${{ secrets.SYLABS_TOKEN }}" ]; then
-           echo "NOOOO"
+       if [ -z "${SYLABS_TOKEN}" ]; then
+           'Could not find SYLABS_TOKEN in the environment'
+           exit 1
        fi
 
        if [ -f "${SINGULARITY_RECIPE}" ]; then
            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
-           # singularity remote login -p ${SYLABS_TOKEN}
-           # singularity push ${OUTPUT_CONTAINER} ${SINGULARITY_LIBRARY}
+           singularity remote login <<< ${SYLABS_TOKEN}
+           singularity push ${OUTPUT_CONTAINER} ${SINGULARITY_LIBRARY}
        else
            echo "${SINGULARITY_RECIPE} is not found."
            echo "Present working directory: $PWD"
