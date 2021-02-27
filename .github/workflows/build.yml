@@ -27,7 +27,7 @@ jobs:
         set -eu
         if [ -f "${SINGULARITY_RECIPE}" ]; then
             singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
-            singularity remote login --password-stdin <<< ${SYLABS_TOKEN}
+            echo ${SYLABS_TOKEN} | singularity remote login
             singularity push ${OUTPUT_CONTAINER} ${SINGULARITY_LIBRARY}
        else
             echo "${SINGULARITY_RECIPE} is not found."
