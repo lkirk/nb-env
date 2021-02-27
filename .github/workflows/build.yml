@@ -24,13 +24,13 @@ jobs:
         SYLABS_TOKEN: ${{ secrets.SYLABS_TOKEN }}
         SINGULARITY_LIBRARY: 'library://lkirk/default/nb-env'
       run: |
-        set -eu
-        if [ -f "${SINGULARITY_RECIPE}" ]; then
-            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
-            echo ${SYLABS_TOKEN} | singularity remote login
-            singularity push ${OUTPUT_CONTAINER} ${SINGULARITY_LIBRARY}
+       set -eu
+       if [ -f "${SINGULARITY_RECIPE}" ]; then
+           singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
+           echo ${SYLABS_TOKEN} | singularity remote login
+           singularity push ${OUTPUT_CONTAINER} ${SINGULARITY_LIBRARY}
        else
-            echo "${SINGULARITY_RECIPE} is not found."
-            echo "Present working directory: $PWD"
-            ls
+           echo "${SINGULARITY_RECIPE} is not found."
+           echo "Present working directory: $PWD"
+           ls
        fi
