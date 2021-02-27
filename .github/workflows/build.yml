@@ -24,7 +24,7 @@ jobs:
         SINGULARITY_LIBRARY: 'library://lkirk/default/nb-env'
       run: |
        set -eu
-       if [ -z "${{ secrets.SYLABS_TOKEN }}"]; then
+       if [ -z "${{ secrets.SYLABS_TOKEN }}" ]; then
            echo "NOOOO"
        fi
 
