@@ -17,27 +17,9 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Build Container
-      shell: bash
       env:
         SINGULARITY_RECIPE: 'Singularity'
         OUTPUT_CONTAINER: 'container.sif'
-        SINGULARITY_LIBRARY: 'library://lkirk/default/nb-env'
+        IMAGE_URI: 'library://lkirk/default/nb-env'
         SYLABS_TOKEN: "${{ secrets.SYLABS_TOKEN }}"
-      run: |
-       set -eu
-       if [ -z "${SYLABS_TOKEN}" ]; then
-           'Could not find SYLABS_TOKEN in the environment'
-           exit 1
-       fi
-
-       if [ -f "${SINGULARITY_RECIPE}" ]; then
-           set -x
-           singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
-           singularity remote login --password-stdin <<< ${SYLABS_TOKEN}
-           singularity push ${OUTPUT_CONTAINER} ${SINGULARITY_LIBRARY}
-           set -x
-       else
-           echo "${SINGULARITY_RECIPE} is not found."
-           echo "Present working directory: $PWD"
-           ls
-       fi
+      run: .github/scripts/build-and-push
