@@ -33,7 +33,7 @@ jobs:
        if [ -f "${SINGULARITY_RECIPE}" ]; then
            set -x
            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
-           singularity remote login <<< ${SYLABS_TOKEN}
+           singularity remote login --password-stdin <<< ${SYLABS_TOKEN}
            singularity push ${OUTPUT_CONTAINER} ${SINGULARITY_LIBRARY}
            set -x
        else
