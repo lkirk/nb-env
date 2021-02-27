@@ -31,9 +31,11 @@ jobs:
        fi
 
        if [ -f "${SINGULARITY_RECIPE}" ]; then
+           set -x
            singularity build ${OUTPUT_CONTAINER} ${SINGULARITY_RECIPE}
            singularity remote login <<< ${SYLABS_TOKEN}
            singularity push ${OUTPUT_CONTAINER} ${SINGULARITY_LIBRARY}
+           set -x
        else
            echo "${SINGULARITY_RECIPE} is not found."
            echo "Present working directory: $PWD"
