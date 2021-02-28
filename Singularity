@@ -1,10 +1,14 @@
 Bootstrap: docker
 From: python:3.8-slim
 
+%environment
+export HOME=/root
+
 %runscript
 jupyter lab ${@}
 
 %post
+    export HOME=/root
     set -ex
     apt-get update
     apt-get install -y --no-install-recommends \
@@ -12,6 +16,7 @@ jupyter lab ${@}
         ca-certificates \
         curl \
         fonts-texgyre \
+        less \
         libssl-dev \
         libcurl4-openssl-dev \
         libgit2-dev \
@@ -21,6 +26,16 @@ jupyter lab ${@}
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
     locale-gen en_US.utf8
     /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
+    echo "\
+alias ..='cd ..'
+alias ...='cd ../..'
+alias la='command ls -la'
+alias ll='command ls -l'
+alias lh='command ls -hAl'
+alias l='command ls -l'
+" > $HOME/.bashrc
+
 
     # Install Node
     # TODO: replace curl w/ wget and bash
@@ -62,8 +77,14 @@ jupyter lab ${@}
         IRkernel \
         devtools
 
-    r --eval 'library('IRkernel');IRkernel::installspec()'
-    r --eval 'devtools::install_github("hadley/devtools")'
+    r --eval '
+    library('IRkernel')
+    IRkernel::installspec()
+
+    devtools::install_github("hadley/devtools")
+    library('remotes')
+    remotes::install_github("rstudio/renv")
+    '
 
     rm /etc/apt/sources.list.d/debian-unstable.list
     rm /etc/apt/apt.conf.d/default
