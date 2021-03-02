@@ -2,14 +2,22 @@ Bootstrap: docker
 From: python:3.8-slim
 
 %environment
-export HOME=/root
+export HOME=/home
 
 %runscript
-jupyter lab ${@}
+cd $HOME
+/usr/bin/zsh ${@}
+
+%startscript
+jupyter lab --no-browser ${@}
+
+%files
+etc/zshrc.local /home/.zshrc.local
 
 %post
-    export HOME=/root
-    set -ex
+    set -e
+    export HOME=/home
+
     apt-get update
     apt-get install -y --no-install-recommends \
         locales \
@@ -20,22 +28,15 @@ jupyter lab ${@}
         libssl-dev \
         libcurl4-openssl-dev \
         libgit2-dev \
-        libxml2-dev
+        libxml2-dev \
+        zsh
 
     # Fix locale
     echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
     locale-gen en_US.utf8
     /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
-    echo "\
-alias ..='cd ..'
-alias ...='cd ../..'
-alias la='command ls -la'
-alias ll='command ls -l'
-alias lh='command ls -hAl'
-alias l='command ls -l'
-" > $HOME/.bashrc
-
+    curl -Lo $HOME/.zshrc 'https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc'
 
     # Install Node
     # TODO: replace curl w/ wget and bash
@@ -91,3 +92,5 @@ alias l='command ls -l'
     rm /etc/apt/apt.conf.d/90local-no-recommends
     rm -rf /tmp/downloaded_packages/ /tmp/*.rds
     rm -rf /var/lib/apt/lists/*
+
+    chsh -s /usr/bin/zsh
