@@ -2,7 +2,7 @@ Bootstrap: docker
 From: python:3.8-slim
 
 %environment
-export HOME=/home
+export HOME=/opt/home
 
 %runscript
 cd $HOME
@@ -12,11 +12,11 @@ cd $HOME
 jupyter lab --no-browser ${@}
 
 %files
-etc/zshrc.local /home/.zshrc.local
+etc/zshrc.local /opt/home/.zshrc.local
 
 %post
     set -e
-    export HOME=/home
+    export HOME=/opt/home
 
     apt-get update
     apt-get install -y --no-install-recommends \
