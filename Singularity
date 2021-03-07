@@ -5,7 +5,6 @@ From: python:3.8-slim
 export HOME=/opt/home
 
 %runscript
-cd $HOME
 /usr/bin/zsh ${@}
 
 %startscript
