@@ -87,7 +87,7 @@ etc/zshrc.local /opt/home/.zshrc.local
     remotes::install_github("rstudio/renv")
     '
 
-    jq '.github_sha = '"$GITHUB_SHA" /.singularity.d/labels.json > /.singularity.d/labels.json.tmp
+    jq '.github_sha = "'$GITHUB_SHA'"' /.singularity.d/labels.json > /.singularity.d/labels.json.tmp
     mv /.singularity.d/labels.json.tmp /.singularity.d/labels.json
 
     rm /etc/apt/sources.list.d/debian-unstable.list
