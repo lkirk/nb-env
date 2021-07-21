@@ -87,6 +87,7 @@ etc/zshrc.local /opt/home/.zshrc.local
     remotes::install_github("rstudio/renv")
     '
 
+    ls -la /.singularity.d
     jq '.github_sha = "'$GITHUB_SHA'"' /.singularity.d/labels.json > /.singularity.d/labels.json.tmp
     mv /.singularity.d/labels.json.tmp /.singularity.d/labels.json
 
