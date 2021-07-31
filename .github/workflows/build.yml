@@ -21,6 +21,6 @@ jobs:
         SINGULARITYENV_GITHUB_SHA: "${{ github.sha }}"
         SINGULARITY_RECIPE: 'Singularity'
         OUTPUT_CONTAINER: 'container.sif'
-        IMAGE_URI: 'library://lkirk/default/nb-env'
+        IMAGE_URI: 'library://lkirk/default/nb-env:latest'
         SYLABS_TOKEN: "${{ secrets.SYLABS_TOKEN }}"
       run: .github/scripts/build-and-push
