@@ -105,14 +105,12 @@ jupyter lab --no-browser ${@}
     # Install R packages
     install.r \
         IRkernel \
-        devtools
+        remotes
 
     r --eval '
     library("IRkernel")
-    IRkernel::installspec(user = FALSE)
-
-    devtools::install_github("hadley/devtools")
     library("remotes")
+    IRkernel::installspec(user = FALSE)
     remotes::install_github("rstudio/renv")
     '
 
