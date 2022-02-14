@@ -46,8 +46,7 @@ jupyter lab --no-browser ${@}
        /usr/local/etc/bash_completion.d/singularity
 
 %post
-    set -e
-    export HOME=/opt/home
+    set -ex
 
     apt-get update
     apt-get install -y --no-install-recommends \
